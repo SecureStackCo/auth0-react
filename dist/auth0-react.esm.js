@@ -197,7 +197,7 @@ var toAuth0ClientOptions = function (opts) {
     var clientId = opts.clientId, redirectUri = opts.redirectUri, maxAge = opts.maxAge, validOpts = __rest(opts, ["clientId", "redirectUri", "maxAge"]);
     return __assign(__assign({}, validOpts), { client_id: clientId, redirect_uri: redirectUri, max_age: maxAge, auth0Client: {
             name: 'auth0-react',
-            version: '1.9.0',
+            version: '1.9.2',
         } });
 };
 /**
@@ -229,8 +229,13 @@ var defaultOnRedirectCallback = function (appState) {
  * Provides the Auth0Context to its child components.
  */
 var Auth0Provider = function (opts) {
-    var children = opts.children, skipRedirectCallback = opts.skipRedirectCallback, _a = opts.onRedirectCallback, onRedirectCallback = _a === void 0 ? defaultOnRedirectCallback : _a, clientOpts = __rest(opts, ["children", "skipRedirectCallback", "onRedirectCallback"]);
-    var client = useState(function () { return new cc(toAuth0ClientOptions(clientOpts)); })[0];
+    var children = opts.children, skipRedirectCallback = opts.skipRedirectCallback, _a = opts.onRedirectCallback, onRedirectCallback = _a === void 0 ? defaultOnRedirectCallback : _a, providedClient = opts.client, clientOpts = __rest(opts, ["children", "skipRedirectCallback", "onRedirectCallback", "client"]);
+    var client = useState(function () {
+        if (typeof providedClient !== "undefined") {
+            return providedClient;
+        }
+        return new cc(toAuth0ClientOptions(clientOpts));
+    })[0];
     var _b = useReducer(reducer, initialAuthState), state = _b[0], dispatch = _b[1];
     useEffect(function () {
         (function () { return __awaiter(void 0, void 0, void 0, function () {

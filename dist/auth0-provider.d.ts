@@ -1,5 +1,5 @@
 import React from 'react';
-import { CacheLocation, ICache } from '@auth0/auth0-spa-js';
+import { Auth0Client, CacheLocation, ICache } from '@auth0/auth0-spa-js';
 /**
  * The state of the application before the user was redirected to the login page.
  */
@@ -133,6 +133,7 @@ export interface Auth0ProviderOptions {
      * the Login Widget.
      */
     connection?: string;
+    client?: Auth0Client;
     /**
      * If you need to send custom parameters to the Authorization Server,
      * make sure to use the original parameter name.

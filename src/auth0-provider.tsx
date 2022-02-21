@@ -239,7 +239,11 @@ const Auth0Provider = (opts: Auth0ProviderOptions): JSX.Element => {
     ...clientOpts
   } = opts;
   const [client] = useState(
-    () => { providedClient || new Auth0Client(toAuth0ClientOptions(clientOpts)) }
+    () => { 
+      if (typeof providedClient !== "undefined") {
+        return providedClient;
+      }
+      return new Auth0Client(toAuth0ClientOptions(clientOpts)) }
   );
   const [state, dispatch] = useReducer(reducer, initialAuthState);
 
