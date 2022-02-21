@@ -158,6 +158,7 @@ export interface Auth0ProviderOptions {
    * the Login Widget.
    */
   connection?: string;
+  client?: Auth0Client;
   /**
    * If you need to send custom parameters to the Authorization Server,
    * make sure to use the original parameter name.
@@ -234,10 +235,11 @@ const Auth0Provider = (opts: Auth0ProviderOptions): JSX.Element => {
     children,
     skipRedirectCallback,
     onRedirectCallback = defaultOnRedirectCallback,
+    client: providedClient,
     ...clientOpts
   } = opts;
   const [client] = useState(
-    () => new Auth0Client(toAuth0ClientOptions(clientOpts))
+    () => { providedClient || new Auth0Client(toAuth0ClientOptions(clientOpts)) }
   );
   const [state, dispatch] = useReducer(reducer, initialAuthState);
 
